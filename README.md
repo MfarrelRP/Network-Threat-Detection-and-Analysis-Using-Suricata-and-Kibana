@@ -1,4 +1,4 @@
-# Installing
+# Installation
 First, we need to update the systems repositories and install essential utilities to ensure the latest package are availabe using the bash below: 
 ```
 sudo apt update
