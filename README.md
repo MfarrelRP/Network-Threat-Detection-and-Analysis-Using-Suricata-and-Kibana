@@ -1,5 +1,5 @@
 # Overview
-This project implements a **Network Intrusion Detection System (IDS)** on a Debia-Based Linux Environment. It leverages:
+This project implements a **Network Intrusion Detection System (IDS)** on a Ubuntu-Based Linux Environment. It leverages:
 
 - **Suricata** - for real-time network traffic monitoring and threat detection
 - **Elasticsearch** - for storing and indexing log data
