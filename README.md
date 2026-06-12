@@ -22,3 +22,24 @@ suricata --build-info
 sudo systemctl enable suricata
 sudo systemctl start suricata
 ```
+The Configuration of Suricata, use the bash below:
+```sudo nano /etc/suricata/suricata.yaml```
+
+# Network Interface Configuration
+Look for this part on the configuration:
+```
+af-packet:
+ - interface: eth0
+ threads: auto
+ cluster-id: 99
+ cluster-type: cluster_flow
+ defrag: yes
+```
+**Explanation**:
+• interface: eth0 → Change the interface to the one that we are using (ip a to
+check).
+• threads: auto → Suricata apart to the amount of CPU thread.
+• defrag: yes → activation of IP package defraging.
+
+# Logging and Output
+Make sure this section is active, so that the logs can be analyzed
