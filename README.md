@@ -148,3 +148,36 @@ Elasticsearch nodes).
 address (important for connecting from another VM or Kibana).
 - http.port: → Default HTTP port (9200) for REST API communication.
 - path.data: and path.logs: → Default directories for database files and logs.
+
+**3. Enable and start the Elasticsearch**
+
+after configuration is done, we can now enable and start the elasticsearch by using the bash below:
+```
+sudo systemctl daemon-reload
+sudo systemctl enable elastichsearch
+sudo systemctl start elasticsearch
+```
+
+**4. Verify installation and Connection**
+
+after a few seconds, verify that elasticsearch is running and listening on port 9200 using bash:
+```curl -X GET "localhost:9200"```
+
+If it works, we will see JSON output similar to this:
+```
+{
+ “name”: “debian-node-1”,
+ “cluster_name”: “elastic-cluster”,
+ “cluster_uuid”: “Yt1s9Lr1...”
+ “version”: {
+ “number”: “8.15.0”,
+ “build_flavor”: “default”
+ },
+ “tagline”: “You Know, for Search”
+}
+```
+
+**5. Test Access from browser**
+
+Open the browser of the debian, and then try:
+```http://<elasticsearch-server-ip>:9200 or http://localhost:9200```
