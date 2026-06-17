@@ -14,6 +14,8 @@ The system is designed in complience with the **IA Triad (Confidentiality, Integ
 First, we need to update the systems repositories and install essential utilities to ensure the latest package are availabe using the bash below: 
 ```
 sudo apt update
+```
+```
 sudo apt install suricata –y
 ```
 
@@ -22,11 +24,17 @@ sudo apt install suricata –y
 After installation, verify the suricata version using the bash below:
 ```
 suricata --build-info
+```
+```
 sudo systemctl enable suricata
+```
+```
 sudo systemctl start suricata
 ```
 The Configuration of Suricata, use the bash below:
-```sudo nano /etc/suricata/suricata.yaml```
+```
+sudo nano /etc/suricata/suricata.yaml
+```
 
 **3. Network Interface Configuration**
 
@@ -73,6 +81,7 @@ Grafana.
 **5. Konfigurasi Rules (Detection Rules).**
 
 The Rules File usually is located in
+
 ```/etc/suricata/rules/suricata.rules```
 
 For base example (you can add this at the end of file)
@@ -95,16 +104,24 @@ rev:1;)
 after the configuration is done, run the bash below to run suricata:
 ```
 sudo systemctl enable suricata
+```
+```
 sudo systemctl start suricata
+```
+```
 sudo systemctl status suricata
 ```
 to see the log without the interface, use the bash:
-```tail -f /var/log/suricata/fast.log```
+```
+tail -f /var/log/suricata/fast.log
+```
 
 **7. Configuration Verification**
 
 before being run permanently, run a configuration verification:
-```udo suricata -T -c /etc/suricata/suricata.yaml -v```
+```
+sudo suricata -T -c /etc/suricata/suricata.yaml -v
+```
 if the output "Configuration provide was successfully loaded" it means the configuration is correct and ready to run.
 
 # Elasticsearch Installation and Configuration
@@ -118,12 +135,16 @@ echo "deb [signed-by=/usr/share/keyrings/elastic-keyring.gpg]
 https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee
 /etc/apt/sources.list.d/elastic-8.x.list
 ```
-```sudo apt install elasticsearch -y```
+```
+sudo apt install elasticsearch -y
+```
 
 **2. Elasticsearch configuration**
 
 after installing, we want to open the configuration using:
-```sudo nano /etc/elasticsearch/elasticsearch.yml```
+```
+sudo nano /etc/elasticsearch/elasticsearch.yml
+```
 
 For example, configuration:
 ```
@@ -154,14 +175,20 @@ address (important for connecting from another VM or Kibana).
 after configuration is done, we can now enable and start the elasticsearch by using the bash below:
 ```
 sudo systemctl daemon-reload
+```
+```
 sudo systemctl enable elastichsearch
+```
+```
 sudo systemctl start elasticsearch
 ```
 
 **4. Verify installation and Connection**
 
 after a few seconds, verify that elasticsearch is running and listening on port 9200 using bash:
-```curl -X GET "localhost:9200"```
+```
+curl -X GET "localhost:9200"
+```
 
 If it works, we will see JSON output similar to this:
 ```
@@ -180,4 +207,50 @@ If it works, we will see JSON output similar to this:
 **5. Test Access from browser**
 
 Open the browser of the debian, and then try:
-```http://<elasticsearch-server-ip>:9200 or http://localhost:9200```
+```
+http://<elasticsearch-server-ip>:9200
+```
+or 
+```
+http://localhost:9200
+```
+
+# Filebeat Installation and Configuration
+**1. Basic Installation**
+
+To install filebeat, we use the bash below:
+```
+sudo apt install filebeat -y
+```
+
+**2. Verify and Configuration**
+
+first we run suricata modules by using the bash below:
+```
+sudi filebeat modules enable suricata
+```
+next, we need to verify and edit (if needed) the suricata module cofig by using the bash below:
+```
+sudo nano /etc/filebeat/modules.d/suricata.yml
+```
+
+and we wan to ensure the log file is on the correct path, like this:
+```
+- module: suricata
+eve:
+enabled: true
+var.paths: ["/var/log/suricata/eve.json"]
+```
+
+After verifying and configuring, we can now load the Dashboard and templates into
+Elasticsearch using the bash below:
+```
+sudo filebeat setup
+```
+Now we start and enable filebeat using the bash below:
+```
+sudo systemctl enable filebeat
+```
+```
+sudo systemctl start filebeat
+```
